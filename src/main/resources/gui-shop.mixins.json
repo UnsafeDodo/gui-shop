@@ -1,9 +1,8 @@
 {
-	"required": true,
-	"package": "unsafedodo.guishop.mixin",
+	"required": false,
+	"package": "unsafedodo.guishop",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

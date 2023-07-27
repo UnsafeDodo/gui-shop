@@ -3,9 +3,9 @@
 	"id": "gui-shop",
 	"version": "${version}",
 	"name": "GUI Shop",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A server side mod for admin GUI shops via command",
 	"authors": [
-		"Me!"
+		"UnsafeDodo"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -16,18 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"unsafedodo.guishop.ExampleMod"
-		],
-		"client": [
-			"unsafedodo.guishop.ExampleModClient"
+			"unsafedodo.guishop.GUIShop"
 		]
 	},
 	"mixins": [
-		"gui-shop.mixins.json",
-		{
-			"config": "gui-shop.client.mixins.json",
-			"environment": "client"
-		}
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
