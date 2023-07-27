@@ -10,19 +10,24 @@ import unsafedodo.guishop.util.ShopSerializer;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class ConfigManager {
-    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(ShopItem.class, new ShopItemSerializer()).registerTypeAdapter(Shop.class, new ShopSerializer()).setPrettyPrinting().disableHtmlEscaping().create();
+    public static final Gson GSON = new GsonBuilder().registerTypeAdapter(ShopItem.class, new ShopItemSerializer()).registerTypeAdapter(Shop.class, new ShopSerializer()).setPrettyPrinting().disableHtmlEscaping().create();
+
+    public static ConfigData getConfigData(File configFile) throws FileNotFoundException, UnsupportedEncodingException {
+
+        ConfigData configData = configFile.exists() ? GSON.fromJson(new InputStreamReader(new FileInputStream(configFile), "UTF-8"), ConfigData.class) : new ConfigData();
+
+        return configData;
+    }
 
     public static boolean loadConfig(){
         boolean success;
         try {
-
             File configDir = Paths.get("", "config").toFile();
             File configFile = new File(configDir, "guishop.json");
 
-            ConfigData configData = configFile.exists() ? GSON.fromJson(new InputStreamReader(new FileInputStream(configFile), "UTF-8"), ConfigData.class) : new ConfigData();
+            ConfigData configData = getConfigData(configFile);
 
             {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), "UTF-8"));
@@ -31,7 +36,9 @@ public class ConfigManager {
             }
 
             //new addition
-
+            GUIShop.shops.clear();
+            for(Shop shop: configData.shops)
+                GUIShop.shops.addLast(shop);
 
             success = true;
 

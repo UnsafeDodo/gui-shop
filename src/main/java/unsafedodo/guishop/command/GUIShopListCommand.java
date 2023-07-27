@@ -8,7 +8,8 @@ import net.minecraft.server.command.ServerCommandSource;
 
 public class GUIShopListCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-
+        //list gives you the list of shop names
+        //list <shopName> gives you the items in the shop
     }
 
     public static int run(CommandContext<ServerCommandSource> context){

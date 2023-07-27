@@ -14,6 +14,10 @@ public class Shop {
         return items;
     }
 
+    public Shop(String name) {
+        this(name, null);
+    }
+
     public Shop(String name, List<ShopItem> items) {
         this.name = name;
         this.items = items;

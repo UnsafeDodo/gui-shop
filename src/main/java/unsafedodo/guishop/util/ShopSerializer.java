@@ -4,12 +4,8 @@ import com.google.gson.*;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 
-import java.awt.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ShopSerializer implements JsonSerializer<Shop>, JsonDeserializer<Shop> {
     @Override
@@ -18,7 +14,7 @@ public class ShopSerializer implements JsonSerializer<Shop>, JsonDeserializer<Sh
         JsonArray jsonItems = jsonShop.getAsJsonArray("items");
         ShopItem[] items = new ShopItem[jsonItems.size()];
 
-        String shopName = jsonShop.get("shopName").toString();
+        String shopName = jsonShop.get("shopName").getAsString();
         for(int i = 0; i < jsonItems.size(); i++){
             ShopItem item = jsonDeserializationContext.deserialize(jsonItems.get(i), ShopItem.class);
             items[i] = item;
