@@ -9,9 +9,9 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
+import unsafedodo.guishop.util.CommonMethods;
 
 public class GUIShopRemoveItemCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
@@ -26,15 +26,9 @@ public class GUIShopRemoveItemCommand {
     public static int run(CommandContext<ServerCommandSource> context){
         String shopName = StringArgumentType.getString(context, "shopName");
         String itemName = StringArgumentType.getString(context, "itemName");
-        Shop foundShop = null;
         ShopItem foundItem = null;
 
-        for(Shop shop: GUIShop.shops){
-            if(shop.getName().equals(shopName)){
-                foundShop = shop;
-                break;
-            }
-        }
+        Shop foundShop = CommonMethods.getShopByName(shopName);
 
         if(foundShop != null){
             for(ShopItem item: foundShop.getItems()){

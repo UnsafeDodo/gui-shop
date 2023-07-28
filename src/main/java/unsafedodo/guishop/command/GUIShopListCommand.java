@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
+import unsafedodo.guishop.util.CommonMethods;
 
 import static unsafedodo.guishop.util.CommonMethods.arrayImplode;
 
@@ -44,22 +45,16 @@ public class GUIShopListCommand {
 
     public static int runSpecificShop(CommandContext<ServerCommandSource> context){
         String shopName = StringArgumentType.getString(context, "shopName");
-        Shop foundShop = null;
-        for(Shop shop: GUIShop.shops){
-            if(shop.getName().equals(shopName)){
-                foundShop = shop;
-                break;
-            }
-        }
+        Shop foundShop = CommonMethods.getShopByName(shopName);
 
         if(foundShop != null){
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\n").append(foundShop.getName()).append(" items list:\n\n");
             for(ShopItem item: foundShop.getItems()){
                 stringBuilder.append("Item name: ").append(item.getItemName()).append(", ")
-                        .append("Buy price: ").append(String.format("%.2f", item.getBuyItemPrice())).append(", ")
-                            .append("Sell price: ").append(String.format("%.2f", item.getSellItemPrice())).append(", ")
-                                .append("Quantities: ").append(arrayImplode(item.getQuantities(), ":")).append("\n\n");
+                    .append("Buy price: ").append(String.format("%.2f", item.getBuyItemPrice())).append(", ")
+                        .append("Sell price: ").append(String.format("%.2f", item.getSellItemPrice())).append(", ")
+                            .append("Quantities: ").append(arrayImplode(item.getQuantities(), ":")).append("\n\n");
             }
 
             String msg = StringUtils.chomp(stringBuilder.toString());
