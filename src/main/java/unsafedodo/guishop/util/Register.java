@@ -1,5 +1,6 @@
 package unsafedodo.guishop.util;
 
+import com.mojang.brigadier.Command;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import unsafedodo.guishop.command.*;
 
@@ -13,5 +14,6 @@ public class Register {
         CommandRegistrationCallback.EVENT.register(GUIShopCreateCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopReloadCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopRemoveItemCommand::register);
+        CommandRegistrationCallback.EVENT.register(GUIShopForceSaveCommand::register);
     }
 }

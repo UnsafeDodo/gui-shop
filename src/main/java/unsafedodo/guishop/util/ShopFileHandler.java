@@ -8,11 +8,12 @@ import unsafedodo.guishop.shop.Shop;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ShopFileHandler implements Runnable{
 
-    private static ScheduledExecutorService executorService;
+    private static ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1);
 
     private static final long TIME = 30;
 
@@ -33,6 +34,10 @@ public class ShopFileHandler implements Runnable{
             writer.write(jsonString);
             writer.close();
         }
+    }
+
+    public void killTask(){
+        executorService.shutdown();
     }
 
     @Override

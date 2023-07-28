@@ -2,6 +2,9 @@ package unsafedodo.guishop.shop;
 
 import net.minecraft.nbt.NbtCompound;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class ShopItem {
     private String itemName;
     private String itemMaterial;
@@ -10,7 +13,6 @@ public class ShopItem {
     private String[] description;
     private NbtCompound nbt;
     private int[] quantities;
-
 
     public ShopItem(String itemName, String itemMaterial, float buyItemPrice, float sellItemPrice, String[] description, NbtCompound nbt, int[] quantities) {
         this.itemName = itemName;
@@ -48,5 +50,41 @@ public class ShopItem {
 
     public int[] getQuantities() {
         return quantities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShopItem shopItem = (ShopItem) o;
+
+        if (Float.compare(shopItem.buyItemPrice, buyItemPrice) != 0) return false;
+        if (Float.compare(shopItem.sellItemPrice, sellItemPrice) != 0) return false;
+        if (!itemName.equals(shopItem.itemName)) return false;
+        if (!itemMaterial.equals(shopItem.itemMaterial)) return false;
+
+        // Compare descriptions
+        if (description.length != shopItem.description.length) return false;
+        for (int i = 0; i < description.length; i++) {
+            if (!description[i].equals(shopItem.description[i])) {
+                return false;
+            }
+        }
+
+        if (!nbt.toString().equals(shopItem.nbt.toString())) return false;
+        return Arrays.equals(quantities, shopItem.quantities);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = itemName != null ? itemName.hashCode() : 0;
+        result = 31 * result + (itemMaterial != null ? itemMaterial.hashCode() : 0);
+        result = 31 * result + (buyItemPrice != +0.0f ? Float.floatToIntBits(buyItemPrice) : 0);
+        result = 31 * result + (sellItemPrice != +0.0f ? Float.floatToIntBits(sellItemPrice) : 0);
+        result = 31 * result + Arrays.hashCode(description);
+        result = 31 * result + nbt.hashCode();
+        result = 31 * result + Arrays.hashCode(quantities);
+        return result;
     }
 }

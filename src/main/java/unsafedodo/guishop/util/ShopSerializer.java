@@ -6,6 +6,7 @@ import unsafedodo.guishop.shop.ShopItem;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class ShopSerializer implements JsonSerializer<Shop>, JsonDeserializer<Shop> {
     @Override
@@ -20,9 +21,13 @@ public class ShopSerializer implements JsonSerializer<Shop>, JsonDeserializer<Sh
             items[i] = item;
         }
 
-        Shop shop = new Shop(shopName, Arrays.stream(items).toList());
+        LinkedList<ShopItem> shopItems = new LinkedList<>();
+        for (ShopItem item:
+                items) {
+            shopItems.addLast(item);
+        }
 
-        return shop;
+        return new Shop(shopName, shopItems);
     }
 
     @Override

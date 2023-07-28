@@ -26,7 +26,9 @@ public class GUIShopMainCommand {
         + "/shop create <shopName>\n"
         + "/shop delete <shopName>\n"
         + "/shop list\n"
+        + "/shop list [shopName]\n"
         + "/shop open <shopName>\n"
+        + "/shop forcesave\n"
         + "/shop reload";
 
         context.getSource().sendFeedback(()->Text.literal(msg).formatted(Formatting.YELLOW), false);

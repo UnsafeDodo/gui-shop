@@ -17,13 +17,13 @@ public class GUIShopCreateCommand {
         dispatcher.register(CommandManager.literal("shop")
                 .then(CommandManager.literal("create")
                     .requires(Permissions.require("guishop.create", 3))
-                        .then(CommandManager.argument("shopName", StringArgumentType.string())
+                        .then(CommandManager.argument("shopName", StringArgumentType.greedyString())
                             .executes(GUIShopCreateCommand::run))));
     }
 
     public static int run(CommandContext<ServerCommandSource> context){
         GUIShop.shops.addLast(new Shop(StringArgumentType.getString(context, "shopName")));
-        context.getSource().sendFeedback(()-> Text.literal("Shop successfully created").formatted(Formatting.GREEN), false);
+        context.getSource().sendFeedback(()-> Text.literal("Shop successfully created!").formatted(Formatting.GREEN), false);
         return 0;
     }
 }
