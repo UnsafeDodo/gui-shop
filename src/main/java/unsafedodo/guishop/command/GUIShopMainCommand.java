@@ -21,15 +21,16 @@ public class GUIShopMainCommand {
     }
 
     private static int runHelp(CommandContext<ServerCommandSource> context) {
-        String msg = "/shop additem <shopName> <itemName> <itemId> <buyPrice> <sellPrice> [Description] [NBT] [qty1:qt2:...:qt5]\n"
-        + "/shop removeitem <shopName> <itemName>\n"
-        + "/shop create <shopName>\n"
-        + "/shop delete <shopName>\n"
-        + "/shop list\n"
-        + "/shop list [shopName]\n"
-        + "/shop open <shopName>\n"
-        + "/shop forcesave\n"
-        + "/shop reload";
+        String msg = """
+                /shop additem <shopName> <itemName> <itemId> <buyPrice> <sellPrice> [Description] [NBT] [qty1:qt2:...:qt5]
+                /shop removeitem <shopName> <itemName>
+                /shop create <shopName>
+                /shop delete <shopName>
+                /shop list
+                /shop list [shopName]
+                /shop open <shopName>
+                /shop forcesave
+                /shop reload""";
 
         context.getSource().sendFeedback(()->Text.literal(msg).formatted(Formatting.YELLOW), false);
 

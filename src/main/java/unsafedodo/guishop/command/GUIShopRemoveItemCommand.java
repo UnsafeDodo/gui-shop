@@ -1,6 +1,5 @@
 package unsafedodo.guishop.command;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -47,7 +46,7 @@ public class GUIShopRemoveItemCommand {
 
             if(foundItem != null){
                 foundShop.getItems().remove(foundItem);
-                context.getSource().sendFeedback(()-> Text.literal("Item successfully removed".formatted(Formatting.GREEN)), false);
+                context.getSource().sendFeedback(()-> Text.literal("Item successfully removed").formatted(Formatting.GREEN), false);
             } else
                 context.getSource().sendFeedback(()-> Text.literal("Item not found").formatted(Formatting.RED), false);
 

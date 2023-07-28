@@ -38,7 +38,11 @@ public class GUIShop implements ModInitializer {
 		Register.registerCommands();
 
 		ShopFileHandler fileHandler = new ShopFileHandler();
-		fileHandler.initialize();
+		if (!fileHandler.initialize()) {
+			String msg = "Could not initialize shops-to-file save daemon";
+			System.out.println(msg);
+			LOGGER.info(msg);
+		}
 	}
 
 

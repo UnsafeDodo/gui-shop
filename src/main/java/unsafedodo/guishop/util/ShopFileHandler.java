@@ -6,6 +6,7 @@ import unsafedodo.guishop.config.ConfigManager;
 import unsafedodo.guishop.shop.Shop;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -18,7 +19,11 @@ public class ShopFileHandler implements Runnable{
     private static final long TIME = 30;
 
     public boolean initialize(){
-        executorService.scheduleAtFixedRate(this, TIME, TIME, TimeUnit.MINUTES);
+        try {
+            executorService.scheduleAtFixedRate(this, TIME, TIME, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
@@ -30,7 +35,7 @@ public class ShopFileHandler implements Runnable{
         File configFile = new File(configDir, "guishop.json");
 
         {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
             writer.write(jsonString);
             writer.close();
         }
@@ -44,8 +49,6 @@ public class ShopFileHandler implements Runnable{
     public void run() {
         try {
             saveToFile();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

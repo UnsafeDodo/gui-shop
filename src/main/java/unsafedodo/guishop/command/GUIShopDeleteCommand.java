@@ -34,9 +34,9 @@ public class GUIShopDeleteCommand {
         }
 
         if(found)
-            context.getSource().sendFeedback(()-> Text.literal("Shop successfully removed!".formatted(Formatting.GREEN)), false);
+            context.getSource().sendFeedback(()-> Text.literal("Shop successfully removed!").formatted(Formatting.GREEN), false);
         else
-            context.getSource().sendFeedback(()-> Text.literal("Shop not found!".formatted(Formatting.RED)), false);
+            context.getSource().sendFeedback(()-> Text.literal("Shop not found!").formatted(Formatting.RED), false);
 
         return 0;
     }

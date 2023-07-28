@@ -14,8 +14,6 @@ import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 
-import java.util.Arrays;
-
 import static unsafedodo.guishop.util.CommonMethods.arrayImplode;
 
 public class GUIShopListCommand {

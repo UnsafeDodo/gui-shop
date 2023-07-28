@@ -3,7 +3,6 @@ package unsafedodo.guishop.shop;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class ShopItem {
     private String itemName;
@@ -80,8 +79,8 @@ public class ShopItem {
     public int hashCode() {
         int result = itemName != null ? itemName.hashCode() : 0;
         result = 31 * result + (itemMaterial != null ? itemMaterial.hashCode() : 0);
-        result = 31 * result + (buyItemPrice != +0.0f ? Float.floatToIntBits(buyItemPrice) : 0);
-        result = 31 * result + (sellItemPrice != +0.0f ? Float.floatToIntBits(sellItemPrice) : 0);
+        result = 31 * result + (buyItemPrice != 0.0f ? Float.floatToIntBits(buyItemPrice) : 0);
+        result = 31 * result + (sellItemPrice != 0.0f ? Float.floatToIntBits(sellItemPrice) : 0);
         result = 31 * result + Arrays.hashCode(description);
         result = 31 * result + nbt.hashCode();
         result = 31 * result + Arrays.hashCode(quantities);

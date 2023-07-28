@@ -11,8 +11,7 @@ public class CommonMethods {
         }
         strBldr.append(array[array.length - 1]);
 
-        String arrStr = strBldr.toString();
-        return arrStr;
+        return strBldr.toString();
     }
 
 }

@@ -5,7 +5,6 @@ import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ShopSerializer implements JsonSerializer<Shop>, JsonDeserializer<Shop> {

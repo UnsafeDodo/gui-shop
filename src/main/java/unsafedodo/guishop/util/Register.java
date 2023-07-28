@@ -1,6 +1,5 @@
 package unsafedodo.guishop.util;
 
-import com.mojang.brigadier.Command;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import unsafedodo.guishop.command.*;
 
