@@ -53,10 +53,10 @@ dependencies {
 	modImplementation ("com.epherical.octo-economy-api:OctoEconomyApi-fabric:1.1.0-1.18.2") {
 		transitive = false
 	}
-	/*modApi "com.github.ExcessiveAmountsOfZombies:OctoEconomyApi:5137175b1c"
-	include "com.github.ExcessiveAmountsOfZombies:OctoEconomyApi:5137175b1c"*/
 
 	modImplementation include("eu.pb4:sgui:1.2.2+1.20")
+
+	modImplementation include("eu.pb4:polymer-core:0.5.6+1.20.1")
 
 }
 
