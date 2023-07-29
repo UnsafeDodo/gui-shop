@@ -35,6 +35,12 @@ public class ShopGUI extends SimpleGui{
             this.setSlot(i, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE).setName(Text.empty()));
         }
 
+        this.setSlot(45, new GuiElementBuilder()
+                .setItem(Items.PLAYER_HEAD)
+                .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                        .append(Text.literal(String.format("balance $")).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+
         this.setSlot(53, new GuiElementBuilder()
                 .setItem(Items.BARRIER)
                 .setName(Text.literal("Exit").setStyle(Style.EMPTY.withItalic(true)))
@@ -77,6 +83,12 @@ class QuantityGUI extends SimpleGui{
             this.setSlot(i, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE)
                     .setName(Text.empty()));
         }
+
+        this.setSlot(45, new GuiElementBuilder()
+                .setItem(Items.PLAYER_HEAD)
+                .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                        .append(Text.literal(String.format("balance $")).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
         this.setSlot(4, new GuiElementBuilder(Registries.ITEM.get(new Identifier(item.getItemMaterial())))
                 .setName(Text.literal(item.getItemName())));
