@@ -1,8 +1,13 @@
 package unsafedodo.guishop.shop;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ShopItem {
     private String itemName;
@@ -86,4 +91,38 @@ public class ShopItem {
         result = 31 * result + Arrays.hashCode(quantities);
         return result;
     }
+
+    public List<Text> getDescriptionAsText(){
+        LinkedList<Text> resultDescription = new LinkedList<>();
+
+        for(String line: description){
+            resultDescription.addLast(Text.literal(line));
+        }
+        return resultDescription;
+    }
+
+    public Text getLoreBuyPrice(int quantity){
+        MutableText priceText = Text.literal("");
+
+        if(buyItemPrice > 0){
+            priceText.append(Text.literal("Buy Price: ").formatted(Formatting.GREEN)
+                    .append(Text.literal(String.format("%.2f $", buyItemPrice*quantity)).formatted(Formatting.YELLOW)));
+        }
+
+        return priceText;
+    }
+
+    public Text getLoreSellPrice(int quantity){
+        MutableText priceText = Text.literal("");
+
+        if(sellItemPrice > 0){
+            priceText.append(Text.literal("Sell Price: ").formatted(Formatting.RED)
+                    .append(Text.literal(String.format("%.2f $", sellItemPrice*quantity)).formatted(Formatting.YELLOW)));
+        }
+
+        return priceText;
+    }
+
+
 }
+

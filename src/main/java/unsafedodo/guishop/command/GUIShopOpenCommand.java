@@ -9,6 +9,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import unsafedodo.guishop.gui.ShopGUI;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.util.CommonMethods;
 
@@ -26,7 +27,8 @@ public class GUIShopOpenCommand {
         Shop selectedShop = CommonMethods.getShopByName(shopName);
 
         if(selectedShop != null){
-
+            ShopGUI shopGUI = new ShopGUI(context.getSource().getPlayer(), selectedShop);
+            shopGUI.open();
         }else
             context.getSource().sendFeedback(()-> Text.literal("Shop not found").formatted(Formatting.RED), false);
         return 0;
