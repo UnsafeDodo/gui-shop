@@ -1,5 +1,6 @@
 package unsafedodo.guishop.shop;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Shop {
@@ -15,7 +16,7 @@ public class Shop {
     }
 
     public Shop(String name) {
-        this(name, null);
+        this(name, new LinkedList<>());
     }
 
     public Shop(String name, List<ShopItem> items) {

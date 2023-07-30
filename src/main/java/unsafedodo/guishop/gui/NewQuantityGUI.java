@@ -13,7 +13,9 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.ShopItem;
+import unsafedodo.guishop.util.CommonMethods;
 import unsafedodo.guishop.util.EconomyTransactionHandler;
 
 public class NewQuantityGUI extends SimpleGui {
@@ -37,10 +39,12 @@ public class NewQuantityGUI extends SimpleGui {
         this.setSlot(45, new GuiElementBuilder()
                 .setItem(Items.PLAYER_HEAD)
                 .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                        .append(Text.literal(String.format("balance $")).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                        .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                 .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
-        this.setSlot(4, new GuiElementBuilder(Registries.ITEM.get(new Identifier(item.getItemMaterial())))
+        ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
+        guiItem.setNbt(item.getNbt());
+        this.setSlot(4, GuiElementBuilder.from(guiItem)
                 .setName(Text.literal(item.getItemName())));
         int k = 0;
         int[] quantities = item.getQuantities();
@@ -56,8 +60,17 @@ public class NewQuantityGUI extends SimpleGui {
                             .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
                     .setCount(quantities[k])
                     .setCallback(((index, type1, action) -> {
-                        EconomyTransactionHandler.buyFromShop(player, item.getBuyItemPrice()*quantity);
-                        player.getInventory().offerOrDrop(new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity));
+                        if(GUIShop.transactionHandler.buyFromShop(player, item.getBuyItemPrice()*quantity)){
+                            ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
+                            givenItem.setNbt(item.getNbt());
+                            player.getInventory().offerOrDrop(givenItem);
+                            this.setSlot(45, new GuiElementBuilder()
+                                    .setItem(Items.PLAYER_HEAD)
+                                    .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                            .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                    .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                        }
+
                     })));
             this.setSlot(i+4, new GuiElementBuilder(Items.RED_CONCRETE)
                     .setName(Text.literal(String.format("Sell %d", quantities[k])).formatted(Formatting.RED))
@@ -69,8 +82,15 @@ public class NewQuantityGUI extends SimpleGui {
                             .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
                     .setCount(quantities[k])
                     .setCallback((index, type1, action) -> {
-                        if(removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity))
-                            EconomyTransactionHandler.sellToShop(player, item.getSellItemPrice()*quantity);
+                        if(removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
+                            GUIShop.transactionHandler.sellToShop(player, item.getSellItemPrice()*quantity);
+                            this.setSlot(45, new GuiElementBuilder()
+                                    .setItem(Items.PLAYER_HEAD)
+                                    .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                            .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                    .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                        }
+
                     }));
             k++;
         }
@@ -81,6 +101,11 @@ public class NewQuantityGUI extends SimpleGui {
                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE, null, null)
                 .setCallback(((index, clickType, action) -> {
                     this.close();
+                    parentGUI.setSlot(45, new GuiElementBuilder()
+                            .setItem(Items.PLAYER_HEAD)
+                            .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                    .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                            .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
                     parentGUI.open();
                 })));
     }

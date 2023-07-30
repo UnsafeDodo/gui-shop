@@ -1,5 +1,8 @@
 package unsafedodo.guishop.util;
 
+import com.epherical.octoecon.api.Economy;
+import com.epherical.octoecon.api.user.UniqueUser;
+import net.minecraft.server.network.ServerPlayerEntity;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
 
@@ -32,4 +35,12 @@ public class CommonMethods {
         return null;
     }
 
+    public static double getBalance(ServerPlayerEntity player){
+        Economy currentEconomy = GUIShop.transactionHandler.currentEconomy;
+        UniqueUser playerAccount = currentEconomy.getOrCreatePlayerAccount(player.getUuid());
+        if(playerAccount != null){
+            return playerAccount.getBalance(currentEconomy.getDefaultCurrency());
+        }
+        return -1;
+    }
 }

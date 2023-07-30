@@ -31,16 +31,22 @@ public class GUIShopListCommand {
     }
 
     public static int runAllShops(CommandContext<ServerCommandSource> context){
-        StringBuilder msgBldr = new StringBuilder();
+        if(GUIShop.shops.size() > 0){
+            StringBuilder msgBldr = new StringBuilder();
 
-        for(Shop shop: GUIShop.shops){
-            msgBldr.append(shop.getName()).append("\n");
-        }
-        String msg = StringUtils.chomp(msgBldr.toString());
+            for(Shop shop: GUIShop.shops){
+                msgBldr.append(shop.getName()).append("\n");
+            }
+            String msg = StringUtils.chomp(msgBldr.toString());
 
-        context.getSource().sendFeedback(()-> Text.literal(msg).formatted(Formatting.AQUA), false);
+            context.getSource().sendFeedback(()-> Text.literal(msg).formatted(Formatting.AQUA), false);
 
-        return 0;
+            return 0;
+        } else
+            context.getSource().sendFeedback(()->Text.literal("No shops available").formatted(Formatting.RED), false);
+
+        return -1;
+
     }
 
     public static int runSpecificShop(CommandContext<ServerCommandSource> context){

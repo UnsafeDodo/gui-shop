@@ -2,8 +2,11 @@ package unsafedodo.guishop.gui;
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
@@ -12,8 +15,11 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
+import unsafedodo.guishop.util.CommonMethods;
 
 public class ShopGUI extends SimpleGui{
+
+    protected Shop shop;
 
     /**
      * Constructs a new simple container gui for the supplied player.
@@ -24,6 +30,7 @@ public class ShopGUI extends SimpleGui{
      */
     public ShopGUI(ServerPlayerEntity player, Shop shop) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
+        this.shop = shop;
         this.setLockPlayerInventory(true);
         this.setTitle(Text.of(shop.getName()));
 
@@ -34,7 +41,7 @@ public class ShopGUI extends SimpleGui{
         this.setSlot(45, new GuiElementBuilder()
                 .setItem(Items.PLAYER_HEAD)
                 .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                        .append(Text.literal(String.format("balance $")).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                        .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                 .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
         this.setSlot(53, new GuiElementBuilder()
@@ -44,7 +51,10 @@ public class ShopGUI extends SimpleGui{
 
         for(int i = 0; i < Math.min(shop.getItems().size(), 36); i++){
             ShopItem item = shop.getItems().get(i);
-            this.setSlot(i, new GuiElementBuilder(Registries.ITEM.get(new Identifier(item.getItemMaterial())))
+            ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
+            guiItem.setNbt(item.getNbt());
+            //Registries.ITEM.get(new Identifier(item.getItemMaterial()))
+            this.setSlot(i, GuiElementBuilder.from(guiItem)
                     .setName(Text.literal(item.getItemName()))
                     .setLore(item.getDescriptionAsText())
                     .addLoreLine(Text.literal(""))

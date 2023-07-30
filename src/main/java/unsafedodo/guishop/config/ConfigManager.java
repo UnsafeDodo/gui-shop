@@ -37,8 +37,11 @@ public class ConfigManager {
 
             //new addition
             GUIShop.shops.clear();
-            for(Shop shop: configData.shops)
-                GUIShop.shops.addLast(shop);
+            if(configData.shops != null){
+                for(Shop shop: configData.shops)
+                    GUIShop.shops.addLast(shop);
+            }
+
 
             success = true;
 
