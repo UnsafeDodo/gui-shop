@@ -19,7 +19,7 @@ All commands can be used by admins (permission level 3) or by users/groups with 
 | Main command               | `/guishop`                                                                                           | `automessage.main`       |
 | Create a shop              | `/guishop create <shopName>`                                                                         | `automessage.create`     |
 | Delete a shop              | `/guishop delete <shopName> `                                                                        | `automessage.delete`     |
-| Add an item in a shop      | `/guishop additem <shopName> <itemMaterial> [buyPrice] [sellPrice] [description] [nbt] <quantities>` | `automessage.additem`    |
+| Add an item in a shop      | `/guishop additem <shopName> <itemMaterial> <buyPrice> <sellPrice> <description> <nbt> <quantities>` | `automessage.additem`    |
 | Remove an item from a shop | `/guishop removeitem <shopName> <itemName>`                                                          | `automessage.removeitem` |
 | Open a shop for a player   | `/guishop open <shopName> <playerName>`                                                              | `automessage.open`       |
 | List all shops             | `/guishop list`                                                                                      | `automessage.list`       |
@@ -30,7 +30,7 @@ All commands can be used by admins (permission level 3) or by users/groups with 
 ### Commands examples
 Create a shop: `/guishop create "Test shop"`"
 
-Add item in a shop: `/guishop additem "Diamond" "minecraft:diamond" 250.00 100.00 "This is a Diamond\\\\An expensive diamond\\\\Shiny" "{}" [1:10:32:64]"` *(you can split each description line by using "\\\\", and you can input up to 4 quantities splitted by ":")*
+Add item in a shop: `/guishop additem "Diamond" "minecraft:diamond" 250.00 100.00 "This is a Diamond\\\\An expensive diamond\\\\Shiny" "{}" "1:10:32:64]"` *(you can split each description line by using "\\\\", and you can input up to 4 quantities splitted by ":")*
 
 Remove item from shop: `/guishop removeitem "Test shop" "Diamond"`
 
@@ -39,9 +39,9 @@ Open a shop and show it to a specific player: `/guishop open "Test shop" "Steve"
 
 ## Configuration
 You can find the config file in `./config/guishop.json`
-<br>Both items' names and descriptions support [Adventure Text Format](https://docs.advntr.dev/minimessage/format.html).
+<br>Both items' names and descriptions support [Simplified Text Format](https://placeholders.pb4.eu/user/text-format/).
 
-You can even add items from the JSON file (check [JSON Example](#json-example)). This can be useful when your `additem` command would be very long, or to easily set a NBT *(remember to reload the mod using `/guishop reload`)*
+You can even add items from the JSON file (check [JSON Example](#json-example)). This can be useful when your `additem` command would be very long, or to easily set a NBT *(remember to reload the mod using `/guishop reload` after editing the config file)*
 
 
 ### JSON example

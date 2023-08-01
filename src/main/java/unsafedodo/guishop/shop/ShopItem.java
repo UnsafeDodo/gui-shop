@@ -1,5 +1,6 @@
 package unsafedodo.guishop.shop;
 
+import eu.pb4.placeholders.api.TextParserUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -96,7 +97,8 @@ public class ShopItem {
         LinkedList<Text> resultDescription = new LinkedList<>();
 
         for(String line: description){
-            resultDescription.addLast(Text.literal(line));
+            Text insertion = TextParserUtils.formatText(line);
+            resultDescription.addLast(insertion);
         }
         return resultDescription;
     }

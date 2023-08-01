@@ -1,8 +1,8 @@
 package unsafedodo.guishop.gui;
 
+import eu.pb4.placeholders.api.TextParserUtils;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -52,8 +52,9 @@ public class ShopGUI extends SimpleGui{
             ShopItem item = shop.getItems().get(i);
             ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
             guiItem.setNbt(item.getNbt());
+            Text name = TextParserUtils.formatText(item.getItemName());
             this.setSlot(i, GuiElementBuilder.from(guiItem)
-                    .setName(Text.literal(item.getItemName()))
+                    .setName(name)
                     .setLore(item.getDescriptionAsText())
                     .addLoreLine(Text.literal(""))
                     .addLoreLine(Text.literal(""))

@@ -1,5 +1,6 @@
 package unsafedodo.guishop.gui;
 
+import eu.pb4.placeholders.api.TextParserUtils;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import eu.pb4.sgui.api.gui.SlotGuiInterface;
@@ -43,8 +44,10 @@ public class NewQuantityGUI extends SimpleGui {
 
         ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
         guiItem.setNbt(item.getNbt());
+        Text name = TextParserUtils.formatText(item.getItemName());
         this.setSlot(4, GuiElementBuilder.from(guiItem)
-                .setName(Text.literal(item.getItemName())));
+                .setName(name)
+                .setLore(item.getDescriptionAsText()));
         int k = 0;
         int[] quantities = item.getQuantities();
         for(int i = 11; i < 45 && k < quantities.length; i+=9){
