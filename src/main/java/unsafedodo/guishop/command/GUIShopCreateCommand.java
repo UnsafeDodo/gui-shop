@@ -17,7 +17,7 @@ public class GUIShopCreateCommand {
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("create")
                     .requires(Permissions.require("guishop.create", 3))
-                        .then(CommandManager.argument("shopName", StringArgumentType.greedyString())
+                        .then(CommandManager.argument("shopName", StringArgumentType.string())
                             .executes(GUIShopCreateCommand::run))));
     }
 
