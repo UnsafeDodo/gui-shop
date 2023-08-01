@@ -1,7 +1,7 @@
 # GUI Shop
 
 A fabric server-side mod to create and manage GUI shops.
-They can be later opened by using commands, allowing integration with NPC mods like [Taterzens](https://www.curseforge.com/minecraft/mc-mods/taterzens)
+They can be later opened by using commands, allowing integration with NPC mods like [Taterzens](https://www.curseforge.com/minecraft/mc-mods/taterzens).
 <br>The mod supports [LuckPerms](https://www.curseforge.com/minecraft/mc-mods/luckperms) for permissions.
 <br><br>
 ## Installation
@@ -54,7 +54,10 @@ You can even add items from the JSON file (check [JSON Example](#json-example)).
         {
           "name": "The boat",
           "material": "minecraft:acacia_chest_boat",
-          "description": [],
+          "description": [
+            "This is a nice boat",
+            "Very beautiful"
+          ],
           "buyPrice": 50.0,
           "sellPrice": 25.0,
           "nbt": "{}",
