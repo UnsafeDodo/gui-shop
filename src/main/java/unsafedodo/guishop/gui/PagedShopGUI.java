@@ -31,11 +31,6 @@ public class PagedShopGUI extends ShopGUI {
         super(player, shop);
         maxPage = (int) Math.ceil((double) shop.getItems().size()/MAX_PAGE_ITEMS);
 
-        /*this.setSlot(48, new GuiElementBuilder(Items.PLAYER_HEAD)
-                .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE_BLOCKED, null, null)
-                .setName(Text.literal("Previous page")
-                        .setStyle(Style.EMPTY.withItalic(true))
-                            .formatted(Formatting.YELLOW))*/
         this.setSlot(48, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE)
                 .setCallback(((index, type1, action) -> {
                     int oldPage = this.page;
@@ -99,11 +94,6 @@ public class PagedShopGUI extends ShopGUI {
                 .setCount(getPage()));
 
         if(page == 1){
-            /*this.setSlot(48, new GuiElementBuilder(Items.PLAYER_HEAD)
-                    .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE_BLOCKED, null, null)
-                    .setName(Text.literal("Previous page")
-                            .setStyle(Style.EMPTY.withItalic(true))
-                            .formatted(Formatting.YELLOW))*/
             this.setSlot(48, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE)
                     .setCallback(((index, type1, action) -> {
                         int oldPage = this.page;
@@ -127,11 +117,6 @@ public class PagedShopGUI extends ShopGUI {
         }
 
         if(page == maxPage){
-            /*this.setSlot(50, new GuiElementBuilder(Items.PLAYER_HEAD)
-                    .setSkullOwner(HeadTextures.GUI_NEXT_PAGE_BLOCKED, null, null)
-                    .setName(Text.literal("Next page")
-                            .setStyle(Style.EMPTY.withItalic(true))
-                            .formatted(Formatting.YELLOW))*/
             this.setSlot(50, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE)
                     .setCallback(((index, type1, action) -> {
                         int oldPage = this.page;

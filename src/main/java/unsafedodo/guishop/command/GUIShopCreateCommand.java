@@ -14,7 +14,7 @@ import unsafedodo.guishop.shop.Shop;
 
 public class GUIShopCreateCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("create")
                     .requires(Permissions.require("guishop.create", 3))
                         .then(CommandManager.argument("shopName", StringArgumentType.greedyString())

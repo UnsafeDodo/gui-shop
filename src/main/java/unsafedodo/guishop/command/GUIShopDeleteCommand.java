@@ -14,7 +14,7 @@ import unsafedodo.guishop.shop.Shop;
 
 public class GUIShopDeleteCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("delete")
                         .then(CommandManager.argument("shopName", StringArgumentType.greedyString())
                                 .requires(Permissions.require("guishop.delete"))

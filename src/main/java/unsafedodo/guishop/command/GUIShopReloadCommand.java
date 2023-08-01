@@ -12,7 +12,7 @@ import unsafedodo.guishop.config.ConfigManager;
 
 public class GUIShopReloadCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("reload")
                         .requires(Permissions.require("guishop.reload", 3))
                         .executes(GUIShopReloadCommand::run)));

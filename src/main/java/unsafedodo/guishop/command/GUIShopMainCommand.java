@@ -7,12 +7,13 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class GUIShopMainCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
                 .requires(Permissions.require("guishop.main", 3))
                 .then(CommandManager.literal("help")
                         .requires(Permissions.require("guishop.help", 3))
@@ -40,7 +41,7 @@ public class GUIShopMainCommand {
     public static int run(CommandContext<ServerCommandSource> context){
         String git = "https://github.com/UnsafeDodo/gui-shop";
         context.getSource().sendFeedback(()-> Text.literal("GUIShop by UnsafeDodo is running!\nCheck the GitHub repository for usage:").formatted(Formatting.GREEN), false);
-        context.getSource().sendFeedback(()->Text.literal(git).formatted(Formatting.GREEN).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, git))), false);
+        context.getSource().sendFeedback(()->Text.literal(git).formatted(Formatting.BLUE).setStyle(Style.EMPTY.withUnderline(true)).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, git))), false);
         return 0;
     }
 }

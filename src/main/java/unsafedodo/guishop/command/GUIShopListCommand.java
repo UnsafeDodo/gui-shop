@@ -19,15 +19,13 @@ import static unsafedodo.guishop.util.CommonMethods.arrayImplode;
 
 public class GUIShopListCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("list")
                         .requires(Permissions.require("guishop.list", 3))
                             .executes(GUIShopListCommand::runAllShops)
                 .then(CommandManager.argument("shopName", StringArgumentType.greedyString())
                         .requires(Permissions.require("guishop.list.items", 3))
                             .executes(GUIShopListCommand::runSpecificShop))));
-        //list gives you the list of shop names
-        //list <shopName> gives you the items in the shop
     }
 
     public static int runAllShops(CommandContext<ServerCommandSource> context){

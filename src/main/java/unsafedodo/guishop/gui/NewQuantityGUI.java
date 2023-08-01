@@ -16,7 +16,6 @@ import net.minecraft.util.Identifier;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
-import unsafedodo.guishop.util.EconomyTransactionHandler;
 
 public class NewQuantityGUI extends SimpleGui {
 
@@ -97,7 +96,7 @@ public class NewQuantityGUI extends SimpleGui {
 
         this.setSlot(53, new GuiElementBuilder()
                 .setItem(Items.PLAYER_HEAD)
-                .setName(Text.literal("Back").setStyle(Style.EMPTY.withItalic(true)))
+                .setName(Text.literal("Back").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW))
                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE, null, null)
                 .setCallback(((index, clickType, action) -> {
                     this.close();

@@ -35,7 +35,6 @@ public class ConfigManager {
                 writer.close();
             }
 
-            //new addition
             GUIShop.shops.clear();
             if(configData.shops != null){
                 for(Shop shop: configData.shops)

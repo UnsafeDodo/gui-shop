@@ -1,12 +1,10 @@
 package unsafedodo.guishop.util;
 
-import com.epherical.octoecon.OctoEconomy;
 import com.epherical.octoecon.api.Currency;
 import com.epherical.octoecon.api.Economy;
 import com.epherical.octoecon.api.event.EconomyEvents;
 import com.epherical.octoecon.api.user.UniqueUser;
 import net.minecraft.server.network.ServerPlayerEntity;
-import unsafedodo.guishop.GUIShop;
 
 public class EconomyTransactionHandler implements EconomyEvents.EconomyChange {
 

@@ -21,7 +21,7 @@ import unsafedodo.guishop.util.CommonMethods;
 
 public class GUIShopAddItemCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("shop")
+        dispatcher.register(CommandManager.literal("guishop")
             .then(CommandManager.literal("additem")
                 .then(CommandManager.argument("shopName", StringArgumentType.string())
                     .then(CommandManager.argument("itemName", StringArgumentType.string())
