@@ -61,7 +61,8 @@ public class NewQuantityGUI extends SimpleGui {
                     .setCallback(((index, type1, action) -> {
                         if(GUIShop.transactionHandler.buyFromShop(player, item.getBuyItemPrice()*quantity)){
                             ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
-                            givenItem.setNbt(item.getNbt());
+                            if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
+                                givenItem.setNbt(item.getNbt());
                             player.getInventory().offerOrDrop(givenItem);
                             this.setSlot(45, new GuiElementBuilder()
                                     .setItem(Items.PLAYER_HEAD)

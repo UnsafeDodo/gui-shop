@@ -52,7 +52,6 @@ public class ShopGUI extends SimpleGui{
             ShopItem item = shop.getItems().get(i);
             ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
             guiItem.setNbt(item.getNbt());
-            //Registries.ITEM.get(new Identifier(item.getItemMaterial()))
             this.setSlot(i, GuiElementBuilder.from(guiItem)
                     .setName(Text.literal(item.getItemName()))
                     .setLore(item.getDescriptionAsText())

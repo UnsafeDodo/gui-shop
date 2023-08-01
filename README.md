@@ -1,12 +1,13 @@
 # GUI Shop
 
 A fabric server-side mod to create and manage GUI shops.
-They can be later opened by using commands, allowing integration with NPC mods like [Taterzens](placeholder.com)
-<br>The mod supports LuckPerms for permissions.
+They can be later opened by using commands, allowing integration with NPC mods like [Taterzens](https://www.curseforge.com/minecraft/mc-mods/taterzens)
+<br>The mod supports [LuckPerms](https://www.curseforge.com/minecraft/mc-mods/luckperms) for permissions.
 <br><br>
 ## Installation
 Put the .jar file in the "mods" folder
-**(Requires Fabric API)**
+
+**[(Requires Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp))**
 <br><br>
 
 ## Commands and permissions
@@ -20,7 +21,7 @@ All commands can be used by admins (permission level 3) or by users/groups with 
 | Delete a shop              | `/guishop delete <shopName> `                                                                        | `automessage.delete`     |
 | Add an item in a shop      | `/guishop additem <shopName> <itemMaterial> [buyPrice] [sellPrice] [description] [nbt] <quantities>` | `automessage.additem`    |
 | Remove an item from a shop | `/guishop removeitem <shopName> <itemName>`                                                          | `automessage.removeitem` |
-| Open a shop                | `/guishop open <shopName>`                                                                           | `automessage.open`       |
+| Open a shop for a player   | `/guishop open <shopName> <playerName>`                                                              | `automessage.open`       |
 | List all shops             | `/guishop list`                                                                                      | `automessage.list`       |
 | List all items in a shop   | `/guishop list <shopName>`                                                                           | `automessage.list`       |
 | Force save config          | `/guishop forcesave`                                                                                 | `automessage.forcesave`  |
@@ -33,7 +34,7 @@ Add item in a shop: `/guishop additem "Diamond" "minecraft:diamond" 250.00 100.0
 
 Remove item from shop: `/guishop removeitem "Test shop" "Diamond"`
 
-Open a shop: `/guishop open "Test shop"`
+Open a shop and show it to a specific player: `/guishop open "Test shop" "Steve"`
 
 
 ## Configuration

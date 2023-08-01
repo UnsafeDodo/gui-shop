@@ -14,11 +14,17 @@ import unsafedodo.guishop.shop.Shop;
 
 public class GUIShopDeleteCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
-        dispatcher.register(CommandManager.literal("guishop")
+        /*dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("delete")
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
                                 .requires(Permissions.require("guishop.delete"))
-                                    .executes(GUIShopDeleteCommand::run))));
+                                    .executes(GUIShopDeleteCommand::run))));*/
+
+        dispatcher.register(CommandManager.literal("guishop")
+                .then(CommandManager.literal("delete")
+                        .requires(Permissions.require("guishop.delete", 3))
+                        .then(CommandManager.argument("shopName", StringArgumentType.string())
+                                .executes(GUIShopDeleteCommand::run))));
     }
 
     public static int run(CommandContext<ServerCommandSource> context){
