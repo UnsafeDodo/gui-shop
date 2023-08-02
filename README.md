@@ -30,7 +30,7 @@ All commands can be used by admins (permission level 3) or by users/groups with 
 ### Commands examples
 Create a shop: `/guishop create "Test shop"`"
 
-Add item in a shop: `/guishop additem "Diamond" "minecraft:diamond" 250.00 100.00 "This is a Diamond\\\\An expensive diamond\\\\Shiny" "{}" "1:10:32:64]"` *(you can split each description line by using "\\\\", and you can input up to 4 quantities splitted by ":")*
+Add item in a shop: `/guishop additem "Diamond" "minecraft:diamond" 250.00 100.00 "This is a Diamond\\An expensive diamond\\Shiny" "{}" "1:10:32:64"` *(you can split each description line by using "\\\\", and you can input up to 4 quantities splitted by ":")*
 
 Remove item from shop: `/guishop removeitem "Test shop" "Diamond"`
 
