@@ -5,13 +5,13 @@ import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
@@ -50,7 +50,7 @@ public class ShopGUI extends SimpleGui{
 
         for(int i = 0; i < Math.min(shop.getItems().size(), 36); i++){
             ShopItem item = shop.getItems().get(i);
-            ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
+            ItemStack guiItem = new ItemStack(Registry.ITEM.get(new Identifier(item.getItemMaterial())));
             guiItem.setNbt(item.getNbt());
             Text name = TextParserUtils.formatText(item.getItemName());
             this.setSlot(i, GuiElementBuilder.from(guiItem)

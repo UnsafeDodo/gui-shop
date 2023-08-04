@@ -20,7 +20,7 @@ public class GUIShopReloadCommand {
 
     public static int run(CommandContext<ServerCommandSource> context){
         if (ConfigManager.loadConfig()) {
-            context.getSource().sendFeedback(() -> Text.literal("Reloaded config!").formatted(Formatting.GREEN), false);
+            context.getSource().sendFeedback(Text.literal("Reloaded config!").formatted(Formatting.GREEN), false);
         } else {
             context.getSource().sendError(Text.literal("Error accrued while reloading config!").formatted(Formatting.RED));
         }

@@ -33,15 +33,15 @@ public class GUIShopMainCommand {
                 /shop forcesave
                 /shop reload""";
 
-        context.getSource().sendFeedback(()->Text.literal(msg).formatted(Formatting.YELLOW), false);
+        context.getSource().sendFeedback(Text.literal(msg).formatted(Formatting.YELLOW), false);
 
         return 0;
     }
 
     public static int run(CommandContext<ServerCommandSource> context){
         String git = "https://github.com/UnsafeDodo/gui-shop";
-        context.getSource().sendFeedback(()-> Text.literal("GUIShop by UnsafeDodo is running!\nCheck the GitHub repository for usage:").formatted(Formatting.GREEN), false);
-        context.getSource().sendFeedback(()->Text.literal(git).setStyle(Style.EMPTY.withUnderline(true)).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, git))).formatted(Formatting.BLUE), false);
+        context.getSource().sendFeedback(Text.literal("GUIShop by UnsafeDodo is running!\nCheck the GitHub repository for usage:").formatted(Formatting.GREEN), false);
+        context.getSource().sendFeedback(Text.literal(git).setStyle(Style.EMPTY.withUnderline(true)).styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, git))).formatted(Formatting.BLUE), false);
         return 0;
     }
 }

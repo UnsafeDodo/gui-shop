@@ -23,7 +23,7 @@ public class GUIShopCreateCommand {
 
     public static int run(CommandContext<ServerCommandSource> context){
         GUIShop.shops.addLast(new Shop(StringArgumentType.getString(context, "shopName")));
-        context.getSource().sendFeedback(()-> Text.literal("Shop successfully created!").formatted(Formatting.GREEN), false);
+        context.getSource().sendFeedback(Text.literal("Shop successfully created!").formatted(Formatting.GREEN), false);
         return 0;
     }
 }

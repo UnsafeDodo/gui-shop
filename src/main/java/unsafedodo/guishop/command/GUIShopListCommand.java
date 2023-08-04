@@ -37,11 +37,11 @@ public class GUIShopListCommand {
             }
             String msg = StringUtils.chomp(msgBldr.toString());
 
-            context.getSource().sendFeedback(()-> Text.literal(msg).formatted(Formatting.AQUA), false);
+            context.getSource().sendFeedback(Text.literal(msg).formatted(Formatting.AQUA), false);
 
             return 0;
         } else
-            context.getSource().sendFeedback(()->Text.literal("No shops available").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("No shops available").formatted(Formatting.RED), false);
 
         return -1;
 
@@ -62,9 +62,9 @@ public class GUIShopListCommand {
             }
 
             String msg = StringUtils.chomp(stringBuilder.toString());
-            context.getSource().sendFeedback(()-> Text.literal(msg).formatted(Formatting.AQUA), false);
+            context.getSource().sendFeedback(Text.literal(msg).formatted(Formatting.AQUA), false);
         } else
-            context.getSource().sendFeedback(()->Text.literal("Shop not found!").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("Shop not found!").formatted(Formatting.RED), false);
 
         return 0;
     }

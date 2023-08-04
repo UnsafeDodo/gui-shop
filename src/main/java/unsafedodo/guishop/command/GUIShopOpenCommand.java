@@ -40,12 +40,12 @@ public class GUIShopOpenCommand {
                     pagedShopGUI.open();
                 }
             }else{
-                context.getSource().sendFeedback(()->Text.literal("The shop does not contain any items").formatted(Formatting.RED), false);
+                context.getSource().sendFeedback(Text.literal("The shop does not contain any items").formatted(Formatting.RED), false);
                 return -1;
             }
 
         }else
-            context.getSource().sendFeedback(()-> Text.literal("Shop not found").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("Shop not found").formatted(Formatting.RED), false);
         return 0;
     }
 }

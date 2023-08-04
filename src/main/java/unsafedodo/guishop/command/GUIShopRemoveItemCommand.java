@@ -40,12 +40,12 @@ public class GUIShopRemoveItemCommand {
 
             if(foundItem != null){
                 foundShop.getItems().remove(foundItem);
-                context.getSource().sendFeedback(()-> Text.literal("Item successfully removed").formatted(Formatting.GREEN), false);
+                context.getSource().sendFeedback(Text.literal("Item successfully removed").formatted(Formatting.GREEN), false);
             } else
-                context.getSource().sendFeedback(()-> Text.literal("Item not found").formatted(Formatting.RED), false);
+                context.getSource().sendFeedback(Text.literal("Item not found").formatted(Formatting.RED), false);
 
         } else
-            context.getSource().sendFeedback(()-> Text.literal("Shop not found").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("Shop not found").formatted(Formatting.RED), false);
 
 
         return 0;

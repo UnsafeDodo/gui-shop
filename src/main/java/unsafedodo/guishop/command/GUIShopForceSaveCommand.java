@@ -24,7 +24,7 @@ public class GUIShopForceSaveCommand {
         ShopFileHandler fileHandler = new ShopFileHandler();
         try{
             fileHandler.saveToFile();
-            context.getSource().sendFeedback(()-> Text.literal("Shops successfully saved to config file!").formatted(Formatting.GREEN), false);
+            context.getSource().sendFeedback(Text.literal("Shops successfully saved to config file!").formatted(Formatting.GREEN), false);
         } catch (IOException e){
             throw new RuntimeException(e);
         }

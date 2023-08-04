@@ -9,12 +9,12 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
@@ -47,7 +47,7 @@ public class GUIShopAddItemCommand {
 
         Shop foundShop = CommonMethods.getShopByName(shopName);
         if (foundShop == null) {
-            context.getSource().sendFeedback(()-> Text.literal(String.format("Shop %s not found", shopName)).formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal(String.format("Shop %s not found", shopName)).formatted(Formatting.RED), false);
             return -1;
         }
         String[] description = descriptionLine.split("\\\\");
@@ -59,26 +59,25 @@ public class GUIShopAddItemCommand {
             int quantitiesLength = quantitiesStrings.length;
             int[] quantities = new int[quantitiesLength];
             if(quantitiesLength > 4){
-                context.getSource().sendFeedback(()->Text.literal("You may only input up to 4 quantities").formatted(Formatting.RED), false);
+                context.getSource().sendFeedback(Text.literal("You may only input up to 4 quantities").formatted(Formatting.RED), false);
                 return -1;
             }
-
-            int maxStackCount = Registries.ITEM.get(new Identifier(itemMaterial)).getMaxCount();
+            int maxStackCount = Registry.ITEM.get(new Identifier(itemMaterial)).getMaxCount();
             for (int i = 0; i < quantitiesLength; i++) {
                 quantities[i] = Integer.parseInt(quantitiesStrings[i]);
                 if(quantities[i] > maxStackCount){
                     final int wrongQuantity = quantities[i];
-                    context.getSource().sendFeedback(()-> Text.literal(String.format("Could not add item: Invalid quantity %d (exceeds max stack size)", wrongQuantity)).formatted(Formatting.RED), false);
+                    context.getSource().sendFeedback(Text.literal(String.format("Could not add item: Invalid quantity %d (exceeds max stack size)", wrongQuantity)).formatted(Formatting.RED), false);
                     return -1;
                 }
             }
 
             foundShop.getItems().add(new ShopItem(itemName, itemMaterial, buyItemPrice, sellItemPrice, description, nbt, quantities));
-            context.getSource().sendFeedback(()-> Text.literal("Item successfully added").formatted(Formatting.GREEN), false);
+            context.getSource().sendFeedback(Text.literal("Item successfully added").formatted(Formatting.GREEN), false);
         } catch (NumberFormatException nfe) {
-            context.getSource().sendFeedback(()-> Text.literal("Could not add item: Invalid quantities").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("Could not add item: Invalid quantities").formatted(Formatting.RED), false);
         } catch (CommandSyntaxException cse) {
-            context.getSource().sendFeedback(()-> Text.literal("Could not add item: Invalid nbt string").formatted(Formatting.RED), false);
+            context.getSource().sendFeedback(Text.literal("Could not add item: Invalid nbt string").formatted(Formatting.RED), false);
         }
 
         return 0;

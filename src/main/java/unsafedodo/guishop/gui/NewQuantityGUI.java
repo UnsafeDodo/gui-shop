@@ -7,13 +7,13 @@ import eu.pb4.sgui.api.gui.SlotGuiInterface;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
@@ -42,7 +42,7 @@ public class NewQuantityGUI extends SimpleGui {
                         .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                 .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
-        ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
+        ItemStack guiItem = new ItemStack(Registry.ITEM.get(new Identifier(item.getItemMaterial())));
         guiItem.setNbt(item.getNbt());
         Text name = TextParserUtils.formatText(item.getItemName());
         this.setSlot(4, GuiElementBuilder.from(guiItem)
@@ -63,16 +63,18 @@ public class NewQuantityGUI extends SimpleGui {
                     .setCount(quantities[k])
                     .setCallback(((index, type1, action) -> {
                         if(GUIShop.transactionHandler.buyFromShop(player, item.getBuyItemPrice()*quantity)){
-                            ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
+                            ItemStack givenItem = new ItemStack(Registry.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
                             if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
                                 givenItem.setNbt(item.getNbt());
+                            player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
                             player.getInventory().offerOrDrop(givenItem);
                             this.setSlot(45, new GuiElementBuilder()
                                     .setItem(Items.PLAYER_HEAD)
                                     .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
                                             .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                                     .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
-                        }
+                        } else
+                            player.sendMessage(Text.literal("You don't have enough money").formatted(Formatting.RED));
 
                     })));
             this.setSlot(i+4, new GuiElementBuilder(Items.RED_CONCRETE)
@@ -85,14 +87,16 @@ public class NewQuantityGUI extends SimpleGui {
                             .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
                     .setCount(quantities[k])
                     .setCallback((index, type1, action) -> {
-                        if(removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
+                        if(removeItemFromInventory(player, Registry.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
                             GUIShop.transactionHandler.sellToShop(player, item.getSellItemPrice()*quantity);
                             this.setSlot(45, new GuiElementBuilder()
                                     .setItem(Items.PLAYER_HEAD)
                                     .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
                                             .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                                     .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
-                        }
+                            player.sendMessage(Text.literal(String.format("You have sold %d %s for %.2f $", quantity, item.getItemName(), item.getSellItemPrice()*quantity)).formatted(Formatting.GREEN));
+                        } else
+                            player.sendMessage(Text.literal("You don't have enough quantity of this item").formatted(Formatting.RED));
 
                     }));
             k++;
