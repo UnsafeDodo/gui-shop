@@ -7,7 +7,7 @@ They can be later opened by using commands, allowing integration with NPC mods l
 ## Installation
 Put the .jar file in the "mods" folder
 
-**(Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp))**
+**(Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [a supported Economy](#supported-economies))**
 <br><br>
 
 ## Commands and permissions
@@ -102,6 +102,11 @@ You can even add items from the JSON file (check [JSON Example](#json-example)).
   ]
 }
 ```
+
+## Supported Economies:
+ - [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp)
+
+
 ## Showcase
 ![Screenshot1](https://i.imgur.com/st7C4aP.png)
 
