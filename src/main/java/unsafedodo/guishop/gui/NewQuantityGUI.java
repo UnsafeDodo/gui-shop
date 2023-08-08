@@ -72,6 +72,7 @@ public class NewQuantityGUI extends SimpleGui {
                                     .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
                                             .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                                     .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
                         }
 
                     })));
@@ -92,8 +93,8 @@ public class NewQuantityGUI extends SimpleGui {
                                     .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
                                             .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                                     .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            player.sendMessage(Text.literal(String.format("You have sold %d %s for %.2f $", quantity, item.getItemName(), item.getSellItemPrice()*quantity)).formatted(Formatting.GREEN));
                         }
-
                     }));
             k++;
         }
