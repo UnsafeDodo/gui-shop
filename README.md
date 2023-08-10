@@ -106,6 +106,8 @@ You can even add items from the JSON file (check [JSON Example](#json-example)).
 ## Supported Economies:
  - [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp)
 
+### Discord
+Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for one of my mods!
 
 ## Showcase
 ![Screenshot1](https://i.imgur.com/st7C4aP.png)
