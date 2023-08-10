@@ -66,13 +66,13 @@ public class NewQuantityGUI extends SimpleGui {
                             ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
                             if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
                                 givenItem.setNbt(item.getNbt());
+                            player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
                             player.getInventory().offerOrDrop(givenItem);
                             this.setSlot(45, new GuiElementBuilder()
                                     .setItem(Items.PLAYER_HEAD)
                                     .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
                                             .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                                     .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
-                            player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
                         }
 
                     })));
