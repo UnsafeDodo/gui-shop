@@ -61,9 +61,9 @@ dependencies {
 
 	modImplementation include("eu.pb4:sgui:1.2.2+1.20")
 
-	modImplementation include("eu.pb4:polymer-core:0.5.6+1.20.1")
+	modImplementation include("eu.pb4:polymer-core:0.6.3+1.20.2")
 
-	modImplementation(include("eu.pb4:placeholder-api:2.1.2+1.20.1"))
+	modImplementation(include("eu.pb4:placeholder-api:2.2.0+1.20.2"))
 
 }
 
