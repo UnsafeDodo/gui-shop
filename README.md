@@ -1,5 +1,7 @@
 # GUI Shop
 
+tktc updated it to 1.20.2 (this line was for getting actions to build it)
+
 A fabric server-side mod to create and manage GUI shops.
 They can be later opened by using commands, allowing integration with NPC mods like [Taterzens](https://www.curseforge.com/minecraft/mc-mods/taterzens).
 <br>The mod supports [LuckPerms](https://www.curseforge.com/minecraft/mc-mods/luckperms) for permissions.
