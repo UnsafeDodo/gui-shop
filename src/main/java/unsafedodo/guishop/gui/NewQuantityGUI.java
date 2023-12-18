@@ -4,6 +4,8 @@ import eu.pb4.placeholders.api.TextParserUtils;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import eu.pb4.sgui.api.gui.SlotGuiInterface;
+import net.impactdev.impactor.api.ImpactorServiceProvider;
+import net.impactdev.impactor.api.economy.accounts.Account;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -17,6 +19,9 @@ import net.minecraft.util.Identifier;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
+import unsafedodo.guishop.util.EconomyHandler;
+
+import java.util.concurrent.ExecutionException;
 
 public class NewQuantityGUI extends SimpleGui {
 
@@ -26,7 +31,7 @@ public class NewQuantityGUI extends SimpleGui {
      *
      *                              will be treated as slots of this gui
      */
-    public NewQuantityGUI(ServerPlayerEntity player, ShopItem item, SlotGuiInterface parentGUI) {
+    public NewQuantityGUI(ServerPlayerEntity player, ShopItem item, SlotGuiInterface parentGUI) throws ExecutionException, InterruptedException {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.setLockPlayerInventory(true);
         this.setTitle(Text.of(item.getItemName()));
@@ -36,10 +41,13 @@ public class NewQuantityGUI extends SimpleGui {
                     .setName(Text.empty()));
         }
 
+        Account playerAccount = EconomyHandler.getAccount(player.getUuid());
+
+        assert playerAccount != null;
         this.setSlot(45, new GuiElementBuilder()
                 .setItem(Items.PLAYER_HEAD)
                 .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                        .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                        .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                 .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
         ItemStack guiItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())));
@@ -62,17 +70,21 @@ public class NewQuantityGUI extends SimpleGui {
                             .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
                     .setCount(quantities[k])
                     .setCallback(((index, type1, action) -> {
-                        if(GUIShop.transactionHandler.buyFromShop(player, item.getBuyItemPrice()*quantity)){
+                        if(EconomyHandler.remove(playerAccount, item.getBuyItemPrice()*quantity)){
                             ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
                             if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
                                 givenItem.setNbt(item.getNbt());
                             player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
                             player.getInventory().offerOrDrop(givenItem);
-                            this.setSlot(45, new GuiElementBuilder()
-                                    .setItem(Items.PLAYER_HEAD)
-                                    .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                                            .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
-                                    .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            try {
+                                this.setSlot(45, new GuiElementBuilder()
+                                        .setItem(Items.PLAYER_HEAD)
+                                        .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                                .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                        .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            } catch (ExecutionException | InterruptedException ignored) {
+
+                            }
                         } else
                             player.sendMessage(Text.literal("You don't have enough money").formatted(Formatting.RED));
 
@@ -88,12 +100,16 @@ public class NewQuantityGUI extends SimpleGui {
                     .setCount(quantities[k])
                     .setCallback((index, type1, action) -> {
                         if(removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
-                            GUIShop.transactionHandler.sellToShop(player, item.getSellItemPrice()*quantity);
-                            this.setSlot(45, new GuiElementBuilder()
-                                    .setItem(Items.PLAYER_HEAD)
-                                    .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                                            .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
-                                    .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            EconomyHandler.add(playerAccount, item.getSellItemPrice()*quantity);
+                            try {
+                                this.setSlot(45, new GuiElementBuilder()
+                                        .setItem(Items.PLAYER_HEAD)
+                                        .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                                .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                        .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                            } catch (ExecutionException | InterruptedException ignored) {
+
+                            }
                             player.sendMessage(Text.literal(String.format("You have sold %d %s for %.2f $", quantity, item.getItemName(), item.getSellItemPrice()*quantity)).formatted(Formatting.GREEN));
                         } else
                             player.sendMessage(Text.literal("You don't have enough quantity of this item").formatted(Formatting.RED));
@@ -107,11 +123,15 @@ public class NewQuantityGUI extends SimpleGui {
                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE, null, null)
                 .setCallback(((index, clickType, action) -> {
                     this.close();
-                    parentGUI.setSlot(45, new GuiElementBuilder()
-                            .setItem(Items.PLAYER_HEAD)
-                            .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                                    .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
-                            .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                    try {
+                        parentGUI.setSlot(45, new GuiElementBuilder()
+                                .setItem(Items.PLAYER_HEAD)
+                                .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                        .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                    } catch (ExecutionException | InterruptedException ignored) {
+
+                    }
                     parentGUI.open();
                 })));
     }

@@ -16,6 +16,8 @@ import unsafedodo.guishop.gui.ShopGUI;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.util.CommonMethods;
 
+import java.util.concurrent.ExecutionException;
+
 public class GUIShopOpenCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("guishop")
@@ -33,11 +35,21 @@ public class GUIShopOpenCommand {
         if(selectedShop != null){
             if(selectedShop.getItems().size() > 0){
                 if(selectedShop.getItems().size() <= PagedShopGUI.MAX_PAGE_ITEMS){
-                    ShopGUI shopGUI = new ShopGUI(EntityArgumentType.getPlayer(context, "playerName"), selectedShop);
-                    shopGUI.open();
+                    try{
+                        ShopGUI shopGUI = new ShopGUI(EntityArgumentType.getPlayer(context, "playerName"), selectedShop);
+                        shopGUI.open();
+                    } catch (ExecutionException  | InterruptedException ignored){
+
+                    }
+
                 } else {
-                    PagedShopGUI pagedShopGUI = new PagedShopGUI(EntityArgumentType.getPlayer(context, "playerName"), selectedShop);
-                    pagedShopGUI.open();
+                    try{
+                        PagedShopGUI pagedShopGUI = new PagedShopGUI(EntityArgumentType.getPlayer(context, "playerName"), selectedShop);
+                        pagedShopGUI.open();
+                    } catch (ExecutionException  | InterruptedException ignored){
+
+                    }
+
                 }
             }else{
                 context.getSource().sendFeedback(()->Text.literal("The shop does not contain any items").formatted(Formatting.RED), false);

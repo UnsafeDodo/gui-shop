@@ -3,6 +3,7 @@ package unsafedodo.guishop.gui;
 import eu.pb4.placeholders.api.TextParserUtils;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
+import net.impactdev.impactor.api.economy.accounts.Account;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -15,6 +16,9 @@ import net.minecraft.util.Identifier;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
+import unsafedodo.guishop.util.EconomyHandler;
+
+import java.util.concurrent.ExecutionException;
 
 public class ShopGUI extends SimpleGui{
 
@@ -27,7 +31,7 @@ public class ShopGUI extends SimpleGui{
      * @param shop                  the shop
      *                              will be treated as slots of this gui
      */
-    public ShopGUI(ServerPlayerEntity player, Shop shop) {
+    public ShopGUI(ServerPlayerEntity player, Shop shop) throws ExecutionException, InterruptedException {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.shop = shop;
         this.setLockPlayerInventory(true);
@@ -37,10 +41,12 @@ public class ShopGUI extends SimpleGui{
             this.setSlot(i, new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE).setName(Text.empty()));
         }
 
+        Account playerAccount = EconomyHandler.getAccount(player.getUuid());
+        assert playerAccount != null;
         this.setSlot(45, new GuiElementBuilder()
                 .setItem(Items.PLAYER_HEAD)
                 .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                        .append(Text.literal(String.format("%.2f $", CommonMethods.getBalance(player))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                        .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
                 .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
 
         this.setSlot(53, new GuiElementBuilder()
@@ -62,9 +68,13 @@ public class ShopGUI extends SimpleGui{
                     .addLoreLine(item.getLoreBuyPrice(1))
                     .addLoreLine(item.getLoreSellPrice(1))
                     .setCallback((index, type1, action, gui) -> {
-                        NewQuantityGUI qGUI = new NewQuantityGUI(player, item, gui);
-                        gui.close();
-                        qGUI.open();
+                        try {
+                            NewQuantityGUI qGUI = new NewQuantityGUI(player, item, gui);
+                            gui.close();
+                            qGUI.open();
+                        } catch (ExecutionException | InterruptedException ignored) {
+                        }
+
                     }));
         }
     }

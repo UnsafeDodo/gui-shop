@@ -29,6 +29,11 @@ repositories {
 		url "https://cursemaven.com"
 	}
 
+	maven{
+		name 'Impactor Economy'
+		url  "https://maven.impactdev.net/repository/development/"
+	}
+
 	mavenCentral()
 }
 
@@ -55,9 +60,7 @@ dependencies {
 
 	include(modImplementation('me.lucko:fabric-permissions-api:0.2-SNAPSHOT'))
 
-	modImplementation ("com.epherical.octo-economy-api:OctoEconomyApi-fabric:1.1.0-1.18.2") {
-		transitive = false
-	}
+	implementation("net.impactdev.impactor.api:economy:5.1.1+1.20.1")
 
 	modImplementation include("eu.pb4:sgui:1.2.2+1.20")
 

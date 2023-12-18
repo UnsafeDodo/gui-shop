@@ -13,6 +13,8 @@ import net.minecraft.util.Identifier;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 
+import java.util.concurrent.ExecutionException;
+
 public class PagedShopGUI extends ShopGUI {
     /**
      * Constructs a new simple container gui for the supplied player.
@@ -25,7 +27,7 @@ public class PagedShopGUI extends ShopGUI {
     protected int page = 1;
     protected int maxPage;
     public static final int MAX_PAGE_ITEMS = 36;
-    public PagedShopGUI(ServerPlayerEntity player, Shop shop) {
+    public PagedShopGUI(ServerPlayerEntity player, Shop shop) throws ExecutionException, InterruptedException {
         super(player, shop);
         maxPage = (int) Math.ceil((double) shop.getItems().size()/MAX_PAGE_ITEMS);
 
@@ -75,9 +77,14 @@ public class PagedShopGUI extends ShopGUI {
                         .addLoreLine(item.getLoreBuyPrice(1))
                         .addLoreLine(item.getLoreSellPrice(1))
                         .setCallback((index, type1, action, gui) -> {
-                            NewQuantityGUI qGUI = new NewQuantityGUI(player, item, gui);
-                            gui.close();
-                            qGUI.open();
+                            try {
+                                NewQuantityGUI qGUI = new NewQuantityGUI(player, item, gui);
+                                gui.close();
+                                qGUI.open();
+                            } catch (ExecutionException | InterruptedException ignored) {
+
+                            }
+
                         }));
             } else {
                 this.setSlot((i-(MAX_PAGE_ITEMS*(page-1))), new GuiElementBuilder(Items.GRAY_STAINED_GLASS_PANE).setName(Text.empty()));

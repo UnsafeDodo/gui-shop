@@ -7,20 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unsafedodo.guishop.config.ConfigManager;
 import unsafedodo.guishop.shop.Shop;
-import unsafedodo.guishop.util.EconomyTransactionHandler;
 import unsafedodo.guishop.util.Register;
 import unsafedodo.guishop.util.ShopFileHandler;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
-import static com.epherical.octoecon.api.event.EconomyEvents.ECONOMY_CHANGE_EVENT;
-
 public class GUIShop implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("gui-shop");
 
 	public static final LinkedList<Shop> shops = new LinkedList<>();
-	public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
+	//public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
 
 
 	static {
@@ -49,9 +46,9 @@ public class GUIShop implements ModInitializer {
 			LOGGER.info(msg);
 		}
 
-		ECONOMY_CHANGE_EVENT.register(currentEconomy -> {
-			transactionHandler.onEconomyChanged(currentEconomy);
-		});
+//		ECONOMY_CHANGE_EVENT.register(currentEconomy -> {
+//			transactionHandler.onEconomyChanged(currentEconomy);
+//		});
 	}
 
 

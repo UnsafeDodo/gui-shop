@@ -1,4 +1,4 @@
-package unsafedodo.guishop.util;
+/*package unsafedodo.guishop.util;
 
 import com.epherical.octoecon.api.Currency;
 import com.epherical.octoecon.api.Economy;
@@ -38,4 +38,4 @@ public class EconomyTransactionHandler implements EconomyEvents.EconomyChange {
     public void onEconomyChanged(Economy economy) {
         currentEconomy = economy;
     }
-}
+}*/
