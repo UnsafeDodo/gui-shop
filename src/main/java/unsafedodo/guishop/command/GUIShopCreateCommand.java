@@ -16,7 +16,7 @@ public class GUIShopCreateCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("create")
-                    .requires(Permissions.require("guishop.create", 3))
+                    .requires(Permissions.require("guishop.create", 2))
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
                             .executes(GUIShopCreateCommand::run))));
     }

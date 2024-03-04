@@ -16,7 +16,7 @@ public class GUIShopForceSaveCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("forcesave")
-                        .requires(Permissions.require("guishop.forcesave", 3))
+                        .requires(Permissions.require("guishop.forcesave", 2))
                         .executes(GUIShopForceSaveCommand::run)));
     }
 

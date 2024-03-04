@@ -31,7 +31,7 @@ public class GUIShopAddItemCommand {
                                     .then(CommandManager.argument("description", StringArgumentType.string())
                                         .then(CommandManager.argument("nbt", StringArgumentType.string())
                                             .then(CommandManager.argument("quantities", StringArgumentType.string())
-                        .requires(Permissions.require("guishop.additem", 3))
+                        .requires(Permissions.require("guishop.additem", 2))
                         .executes(GUIShopAddItemCommand::run)))))))))));
     }
 

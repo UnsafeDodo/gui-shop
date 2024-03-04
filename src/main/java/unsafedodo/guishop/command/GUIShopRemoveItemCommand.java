@@ -19,7 +19,7 @@ public class GUIShopRemoveItemCommand {
                 .then(CommandManager.literal("removeitem")
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
                                 .then(CommandManager.argument("itemName", StringArgumentType.string())
-                                        .requires(Permissions.require("guishop.removeitem", 3))
+                                        .requires(Permissions.require("guishop.removeitem", 2))
                                             .executes(GUIShopRemoveItemCommand::run)))));
     }
 

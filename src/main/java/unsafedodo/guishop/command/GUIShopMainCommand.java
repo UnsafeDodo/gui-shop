@@ -14,9 +14,9 @@ import net.minecraft.util.Formatting;
 public class GUIShopMainCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("guishop")
-                .requires(Permissions.require("guishop.main", 3))
+                .requires(Permissions.require("guishop.main", 2))
                 .then(CommandManager.literal("help")
-                        .requires(Permissions.require("guishop.help", 3))
+                        .requires(Permissions.require("guishop.help", 2))
                         .executes(GUIShopMainCommand::runHelp))
                 .executes(GUIShopMainCommand::run));
     }

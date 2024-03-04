@@ -30,6 +30,10 @@ public abstract class EconomyHandler {
         return transaction.successful();
     }
 
+//    public static String getCurrency(){
+//        return currency.symbol().toString();
+//    }
+
     public static boolean hasEnoughMoney(Account account, double amount) throws ExecutionException, InterruptedException {
         double balance = getBalance(account);
 

@@ -24,7 +24,7 @@ public class GUIShopListCommand {
                         .requires(Permissions.require("guishop.list", 3))
                             .executes(GUIShopListCommand::runAllShops)
                 .then(CommandManager.argument("shopName", StringArgumentType.string())
-                        .requires(Permissions.require("guishop.list.items", 3))
+                        .requires(Permissions.require("guishop.list.items", 2))
                             .executes(GUIShopListCommand::runSpecificShop))));
     }
 

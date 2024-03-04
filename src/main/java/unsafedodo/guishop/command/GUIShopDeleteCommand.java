@@ -16,7 +16,7 @@ public class GUIShopDeleteCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("delete")
-                        .requires(Permissions.require("guishop.delete", 3))
+                        .requires(Permissions.require("guishop.delete", 2))
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
                                 .executes(GUIShopDeleteCommand::run))));
     }
