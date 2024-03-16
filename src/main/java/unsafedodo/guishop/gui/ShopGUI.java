@@ -62,9 +62,6 @@ public class ShopGUI extends SimpleGui{
             this.setSlot(i, GuiElementBuilder.from(guiItem)
                     .setName(name)
                     .setLore(item.getDescriptionAsText())
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal(""))
                     .addLoreLine(item.getLoreBuyPrice(1))
                     .addLoreLine(item.getLoreSellPrice(1))
                     .setCallback((index, type1, action, gui) -> {

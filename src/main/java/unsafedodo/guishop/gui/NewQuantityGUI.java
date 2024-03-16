@@ -60,60 +60,68 @@ public class NewQuantityGUI extends SimpleGui {
         int[] quantities = item.getQuantities();
         for(int i = 11; i < 45 && k < quantities.length; i+=9){
             final int quantity = quantities[k];
-            this.setSlot(i, new GuiElementBuilder(Items.LIME_CONCRETE)
-                    .setName(Text.literal(String.format("Buy %d", quantities[k])).formatted(Formatting.GREEN))
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal("Buy Price: ").formatted(Formatting.GREEN)
-                            .append(Text.literal(String.format("%.2f $", item.getBuyItemPrice()*quantities[k])).formatted(Formatting.YELLOW)))
-                    .addLoreLine(Text.literal("Quantity: ").formatted(Formatting.GREEN)
-                            .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
-                    .setCount(quantities[k])
-                    .setCallback(((index, type1, action) -> {
-                        if(EconomyHandler.remove(playerAccount, item.getBuyItemPrice()*quantity)){
-                            ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
-                            if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
-                                givenItem.setNbt(item.getNbt());
-                            player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
-                            player.getInventory().offerOrDrop(givenItem);
-                            try {
-                                this.setSlot(45, new GuiElementBuilder()
-                                        .setItem(Items.PLAYER_HEAD)
-                                        .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                                                .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
-                                        .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
-                            } catch (ExecutionException | InterruptedException ignored) {
+            if (item.getBuyItemPrice() != -1.0) {
+                this.setSlot(i, new GuiElementBuilder(Items.LIME_CONCRETE)
+                        .setName(Text.literal(String.format("Buy %d", quantities[k])).formatted(Formatting.GREEN))
+                        .addLoreLine(Text.literal(""))
+                        .addLoreLine(Text.literal(""))
+                        .addLoreLine(Text.literal("Buy Price: ").formatted(Formatting.GREEN)
+                                .append(Text.literal(String.format("%.2f $", item.getBuyItemPrice()*quantities[k])).formatted(Formatting.YELLOW)))
+                        .addLoreLine(Text.literal("Quantity: ").formatted(Formatting.GREEN)
+                                .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
+                        .setCount(quantities[k])
+                        .setCallback(((index, type1, action) -> {
+                            if (item.getBuyItemPrice() == -1.0) {
+                                player.sendMessage(Text.literal("This item is not for sale").formatted(Formatting.RED));
+                            } else if (EconomyHandler.remove(playerAccount, item.getBuyItemPrice()*quantity)){
+                                ItemStack givenItem = new ItemStack(Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity);
+                                if((item.getNbt() != null) && !(item.getNbt().toString().equals("{}")))
+                                    givenItem.setNbt(item.getNbt());
+                                player.sendMessage(Text.literal(String.format("You have bought %d %s for %.2f $", givenItem.getCount(), item.getItemName(), item.getBuyItemPrice()*givenItem.getCount())).formatted(Formatting.GREEN));
+                                player.getInventory().offerOrDrop(givenItem);
+                                try {
+                                    this.setSlot(45, new GuiElementBuilder()
+                                            .setItem(Items.PLAYER_HEAD)
+                                            .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                                    .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                            .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                                } catch (ExecutionException | InterruptedException ignored) {
 
+                                }
+                            } else {
+                                player.sendMessage(Text.literal("You don't have enough money").formatted(Formatting.RED));
                             }
-                        } else
-                            player.sendMessage(Text.literal("You don't have enough money").formatted(Formatting.RED));
+                        })));
+            }
+            if (item.getSellItemPrice() != -1.0) {
+                this.setSlot(i+4, new GuiElementBuilder(Items.RED_CONCRETE)
+                        .setName(Text.literal(String.format("Sell %d", quantities[k])).formatted(Formatting.RED))
+                        .addLoreLine(Text.literal(""))
+                        .addLoreLine(Text.literal(""))
+                        .addLoreLine(Text.literal("Sell Price: ").formatted(Formatting.RED)
+                                .append(Text.literal(String.format("%.2f $", item.getSellItemPrice()*quantities[k])).formatted(Formatting.YELLOW)))
+                        .addLoreLine(Text.literal("Quantity: ").formatted(Formatting.RED)
+                                .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
+                        .setCount(quantities[k])
+                        .setCallback((index, type1, action) -> {
+                            if (item.getSellItemPrice() == -1.0) {
+                                player.sendMessage(Text.literal("You can't sell this item!").formatted(Formatting.RED));
+                            } else if (removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
+                                EconomyHandler.add(playerAccount, item.getSellItemPrice()*quantity);
+                                try {
+                                    this.setSlot(45, new GuiElementBuilder()
+                                            .setItem(Items.PLAYER_HEAD)
+                                            .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
+                                                    .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
+                                            .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
+                                } catch (ExecutionException | InterruptedException ignored) {
 
-                    })));
-            this.setSlot(i+4, new GuiElementBuilder(Items.RED_CONCRETE)
-                    .setName(Text.literal(String.format("Sell %d", quantities[k])).formatted(Formatting.RED))
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal(""))
-                    .addLoreLine(Text.literal("Sell Price: ").formatted(Formatting.RED)
-                            .append(Text.literal(String.format("%.2f $", item.getSellItemPrice()*quantities[k])).formatted(Formatting.YELLOW)))
-                    .addLoreLine(Text.literal("Quantity: ").formatted(Formatting.RED)
-                            .append(Text.literal(String.format("%d", quantities[k])).formatted(Formatting.YELLOW)))
-                    .setCount(quantities[k])
-                    .setCallback((index, type1, action) -> {
-                        if(removeItemFromInventory(player, Registries.ITEM.get(new Identifier(item.getItemMaterial())), quantity)){
-                            EconomyHandler.add(playerAccount, item.getSellItemPrice()*quantity);
-                            try {
-                                this.setSlot(45, new GuiElementBuilder()
-                                        .setItem(Items.PLAYER_HEAD)
-                                        .setName(Text.literal("Your balance: ").setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.GREEN)
-                                                .append(Text.literal(String.format("%.2f $", EconomyHandler.getBalance(playerAccount))).setStyle(Style.EMPTY.withItalic(true)).formatted(Formatting.YELLOW)))
-                                        .setSkullOwner(HeadTextures.MONEY_SYMBOL, null, null));
-                            } catch (ExecutionException | InterruptedException ignored) {
-
-                            }
-                            player.sendMessage(Text.literal(String.format("You have sold %d %s for %.2f $", quantity, item.getItemName(), item.getSellItemPrice()*quantity)).formatted(Formatting.GREEN));
-                        } else
-                            player.sendMessage(Text.literal("You don't have enough quantity of this item").formatted(Formatting.RED));
-                    }));
+                                }
+                                player.sendMessage(Text.literal(String.format("You have sold %d %s for %.2f $", quantity, item.getItemName(), item.getSellItemPrice()*quantity)).formatted(Formatting.GREEN));
+                            } else
+                                player.sendMessage(Text.literal("You don't have enough quantity of this item").formatted(Formatting.RED));
+                        }));
+            }
             k++;
         }
 
