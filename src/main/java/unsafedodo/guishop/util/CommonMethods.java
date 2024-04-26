@@ -1,8 +1,16 @@
 package unsafedodo.guishop.util;
 
 
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import net.minecraft.server.command.ServerCommandSource;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CommonMethods {
 
@@ -31,6 +39,23 @@ public class CommonMethods {
             }
         }
         return null;
+    }
+
+    public static List<Shop> getAllShops(){
+        return GUIShop.shops;
+    }
+
+    public static class ShopNameSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
+        @Override
+        public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+            String input = builder.getRemaining().toLowerCase();
+            for (Shop shop : CommonMethods.getAllShops()) {
+                if (shop.getName().toLowerCase().startsWith(input)) {
+                    builder.suggest(shop.getName());
+                }
+            }
+            return builder.buildFuture();
+        }
     }
 
 //    public static double getBalance(ServerPlayerEntity player){

@@ -24,6 +24,7 @@ public class GUIShopAddItemCommand {
         dispatcher.register(CommandManager.literal("guishop")
             .then(CommandManager.literal("additem")
                 .then(CommandManager.argument("shopName", StringArgumentType.string())
+                    .suggests(new CommonMethods.ShopNameSuggestionProvider())
                     .then(CommandManager.argument("itemName", StringArgumentType.string())
                         .then(CommandManager.argument("itemMaterial", StringArgumentType.string())
                             .then(CommandManager.argument("buyItemPrice", FloatArgumentType.floatArg(-1.0f))

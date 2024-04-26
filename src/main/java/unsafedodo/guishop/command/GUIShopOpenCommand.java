@@ -4,6 +4,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -16,6 +19,7 @@ import unsafedodo.guishop.gui.ShopGUI;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.util.CommonMethods;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class GUIShopOpenCommand {
@@ -23,6 +27,7 @@ public class GUIShopOpenCommand {
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("open")
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
+                                .suggests(new CommonMethods.ShopNameSuggestionProvider())
                                 .then(CommandManager.argument("playerName", EntityArgumentType.player())
                                 .requires(Permissions.require("guishop.open",2))
                                 .executes(GUIShopOpenCommand::run)))));

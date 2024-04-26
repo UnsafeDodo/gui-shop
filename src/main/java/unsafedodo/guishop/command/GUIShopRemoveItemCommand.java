@@ -18,6 +18,7 @@ public class GUIShopRemoveItemCommand {
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("removeitem")
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
+                                .suggests(new CommonMethods.ShopNameSuggestionProvider())
                                 .then(CommandManager.argument("itemName", StringArgumentType.string())
                                         .requires(Permissions.require("guishop.removeitem", 2))
                                             .executes(GUIShopRemoveItemCommand::run)))));
