@@ -2,6 +2,7 @@ package unsafedodo.guishop.util;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import unsafedodo.guishop.command.*;
+import unsafedodo.guishop.command.sell.SellCommand;
 
 public class Register {
     public static void registerCommands(){
@@ -14,5 +15,6 @@ public class Register {
         CommandRegistrationCallback.EVENT.register(GUIShopReloadCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopRemoveItemCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopForceSaveCommand::register);
+        CommandRegistrationCallback.EVENT.register(SellCommand::register);
     }
 }
