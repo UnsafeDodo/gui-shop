@@ -2,7 +2,7 @@ package unsafedodo.guishop.command.sell;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.impactdev.impactor.api.economy.accounts.Account;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.item.ItemStack;
@@ -13,20 +13,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
 import unsafedodo.guishop.shop.ShopItem;
 import unsafedodo.guishop.util.CommonMethods;
 import unsafedodo.guishop.util.EconomyHandler;
 
-import java.util.logging.Logger;
-
 public class SellCommand {
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
 		dispatcher.register(CommandManager.literal("sell")
 				.then(CommandManager.literal("hand")
+						.requires(Permissions.require("guishop.sell.hand", 2))
 						.executes(SellCommand::sellHand))
 				.then(CommandManager.literal("all")
+						.requires(Permissions.require("guishop.sell.all", 2))
 						.executes(SellCommand::sellAll)));
 	}
 
