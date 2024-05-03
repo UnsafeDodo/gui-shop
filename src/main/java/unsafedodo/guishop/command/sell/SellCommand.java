@@ -10,6 +10,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -105,6 +106,7 @@ public class SellCommand {
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		double totalPrice = 0;
 		int totalCount = 0;
+		MutableText hoverText = Text.literal("Breakdown:\n").formatted(Formatting.YELLOW);
 
 		for (int i = 0; i < player.getInventory().size(); i++) {
 			ItemStack itemStack = player.getInventory().getStack(i);
@@ -117,6 +119,7 @@ public class SellCommand {
 							player.getInventory().remove(stack -> isItemEqual(stack, shopItem), count, player.getInventory());
 							totalPrice += price;
 							totalCount += count;
+							hoverText.append(Text.literal(count + " x " + shopItem.getItemName() + " - $" + String.format("%.2f", price) + "\n").formatted(Formatting.GRAY));
 							break;
 						}
 					}
@@ -127,7 +130,8 @@ public class SellCommand {
 		if (totalCount > 0) {
 			Account account = EconomyHandler.getAccount(player.getUuid());
 			EconomyHandler.add(account, totalPrice);
-			MutableText message = Text.literal("Sold " + totalCount + " items for $" + String.format("%.2f", totalPrice)).styled(style -> style.withColor(Formatting.GREEN));
+			MutableText message = Text.literal("Sold " + totalCount + " items for $" + String.format("%.2f", totalPrice))
+					.styled(style -> style.withColor(Formatting.GREEN).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText)));
 			context.getSource().sendFeedback(() -> message, false);
 		} else {
 			context.getSource().sendFeedback(() -> Text.literal("You don't have any sellable items in your inventory.").styled(style -> style.withColor(Formatting.RED)), false);

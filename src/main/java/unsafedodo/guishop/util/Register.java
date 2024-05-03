@@ -8,6 +8,7 @@ public class Register {
     public static void registerCommands(){
         CommandRegistrationCallback.EVENT.register(GUIShopMainCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopAddItemCommand::register);
+        CommandRegistrationCallback.EVENT.register(GUIShopAddHeldItemCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopDeleteCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopListCommand::register);
         CommandRegistrationCallback.EVENT.register(GUIShopOpenCommand::register);
