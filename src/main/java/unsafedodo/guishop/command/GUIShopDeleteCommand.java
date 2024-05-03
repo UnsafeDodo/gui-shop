@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import unsafedodo.guishop.GUIShop;
 import unsafedodo.guishop.shop.Shop;
+import unsafedodo.guishop.util.CommonMethods;
 
 public class GUIShopDeleteCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
@@ -18,6 +19,7 @@ public class GUIShopDeleteCommand {
                 .then(CommandManager.literal("delete")
                         .requires(Permissions.require("guishop.delete", 2))
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
+                        .suggests(new CommonMethods.ShopNameSuggestionProvider())
                                 .executes(GUIShopDeleteCommand::run))));
     }
 

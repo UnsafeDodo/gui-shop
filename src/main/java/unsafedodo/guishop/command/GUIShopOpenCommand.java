@@ -23,6 +23,7 @@ public class GUIShopOpenCommand {
         dispatcher.register(CommandManager.literal("guishop")
                 .then(CommandManager.literal("open")
                         .then(CommandManager.argument("shopName", StringArgumentType.string())
+                                .suggests(new CommonMethods.ShopNameSuggestionProvider())
                                 .then(CommandManager.argument("playerName", EntityArgumentType.player())
                                 .requires(Permissions.require("guishop.open",2))
                                 .executes(GUIShopOpenCommand::run)))));
