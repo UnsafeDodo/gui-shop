@@ -8,6 +8,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -70,7 +72,15 @@ public class GUIShopAddHeldItemCommand {
                 }
             }
 
-            foundShop.getItems().add(new ShopItem(itemName, itemMaterial, buyItemPrice, sellItemPrice, new String[]{}, heldItem.getNbt(), quantities));
+            foundShop.getItems().add(new ShopItem(
+                    itemName,
+                    itemMaterial,
+                    buyItemPrice,
+                    sellItemPrice,
+                    new String[]{},
+                    heldItem.getNbt() != null ? heldItem.getNbt() : StringNbtReader.parse("{}"),
+                    quantities
+            ));
             context.getSource().sendFeedback(() -> Text.literal("Item successfully added").formatted(Formatting.GREEN), false);
         } catch (NumberFormatException nfe) {
             context.getSource().sendFeedback(() -> Text.literal("Could not add item: Invalid quantities").formatted(Formatting.RED), false);
