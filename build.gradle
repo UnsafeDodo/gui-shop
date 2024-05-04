@@ -29,7 +29,7 @@ repositories {
 		url "https://cursemaven.com"
 	}
 
-	maven{
+	maven {
 		name 'Impactor Economy'
 		url  "https://maven.impactdev.net/repository/development/"
 	}
